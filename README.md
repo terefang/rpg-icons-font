@@ -23,3 +23,5 @@ this will download the common icons and compile the font and typst include into 
 * Game Icons — https://game-icons.net/
 * Feather Icons — https://github.com/feathericons/feather
 * OctIcons — https://github.com/primer/octicons
+* Glyph Iconset — https://github.com/chutichhuy/glyph-iconset
+* Core UI Icons — https://github.com/coreui/coreui-icons
