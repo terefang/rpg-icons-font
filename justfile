@@ -1,7 +1,7 @@
 #!/usr/bin/env -S just --justfile
 
 XDIR := justfile_directory()
-XFNT := XDIR+"/fonts"
+XFNT := XDIR+"/static"
 
 DND_BASE := 'https://github.com/intrinsical/tw-dnd/archive/refs/heads/main.zip'
 LORC_BASE := 'https://game-icons.net/archives/svg/zip/000000/transparent/game-icons.net.svg.zip'
@@ -10,10 +10,10 @@ default: build
 
 build: dl-dnd dl-lorc
     #!/bin/sh
-    mkdir -p {{XDIR}}/tmp
+    mkdir -p {{XDIR}}/tmp {{XFNT}}
     [ -f {{XFNT}}/RpgIcons.otf ] || (
         GBASE=$((0xe000))
-        echo "// auto-generated $(date)" > {{XDIR}}/templates/diceset.typ
+        echo "// auto-generated $(date)" > {{XFNT}}/diceset.typ
         cat > {{XDIR}}/tmp/compile_font.ff <<EOT
         New()
         Reencode("UnicodeFull")
@@ -22,7 +22,7 @@ build: dl-dnd dl-lorc
     EOT
         for x in {{XDIR}}/icons/*.svg; do
             y=$(basename $x .svg)
-            echo "#let ds-${y}-g = text(font:\"RpgIcons\",str.from-unicode($GBASE));" >> {{XDIR}}/templates/diceset.typ
+            echo "#let ds-${y}-g = text(font:\"RpgIcons\",str.from-unicode($GBASE));" >> {{XFNT}}/diceset.typ
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
             Select(UCodePoint($GBASE))
             Import("$x")
