@@ -21,3 +21,5 @@ this will download the common icons and compile the font and typst include into 
 
 * DnD Icons — https://github.com/intrinsical/tw-dnd
 * Game Icons — https://game-icons.net/
+* Feather Icons — https://github.com/feathericons/feather
+* OctIcons — https://github.com/primer/octicons
