@@ -33,7 +33,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
     EOT
         for z in dnd fe opi gi cil; do
             for x in {{XDIR}}/icons/$z/*.svg; do
-                y=$(basename $x .svg)
+                y=$(basename $x .svg | tr -c '[a-zA-Z0-9\-]+' '_')
                 echo "#let ds-${z}-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GBASE));" >> {{XFNT}}/diceset.typ
                 cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
                     Select(UCodePoint($GBASE))
@@ -46,7 +46,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
             done
         done
         for x in {{XDIR}}/icons/lorc/*.svg; do
-            y=$(basename $x .svg)
+            y=$(basename $x .svg | tr -c '[a-zA-Z0-9\-]+' '_')
             echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GBASE));" >> {{XFNT}}/diceset.typ
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
             Select(UCodePoint($GBASE))
@@ -58,7 +58,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
             GBASE=$(($GBASE+1))
         done
         for x in {{XDIR}}/icons/oi/*.svg; do
-            y=$(basename $x -24.svg)
+            y=$(basename $x -24.svg | tr -c '[a-zA-Z0-9\-]+' '_')
             echo "#let ds-oi-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GBASE));" >> {{XFNT}}/diceset.typ
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
             Select(UCodePoint($GBASE))
