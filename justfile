@@ -35,7 +35,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
         for z in dnd fe opi gi cil; do
             GINDEX=$GBASE
             for x in {{XDIR}}/icons/$z/*.svg; do
-                y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '_')
+                y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-')
                 echo "#let ds-${z}-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
                 printf "%-40s   %04X\n" "${z}-${y}" $GINDEX >> {{XFNT}}/diceset.names
                 cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
@@ -51,7 +51,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
         done
         GINDEX=$GBASE
         for x in {{XDIR}}/icons/lorc/*.svg; do
-            y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '_')
+            y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-')
             echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
             printf "%-40s   %04X\n" "${y}" $GINDEX >> {{XFNT}}/diceset.names
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
@@ -66,7 +66,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
         GBASE=$(($GBASE+0x2000))
         GINDEX=$GBASE
         for x in {{XDIR}}/icons/oi/*.svg; do
-            y=$(basename $x -24.svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '_')
+            y=$(basename $x -24.svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-')
             echo "#let ds-oi-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
             printf "%-40s   %04X\n" "oi-${y}" $GINDEX >> {{XFNT}}/diceset.names
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT

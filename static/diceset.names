@@ -1,4 +1,4 @@
-# --- auto-generated Mon Jun  9 01:55:26 AM CEST 2025
+# --- auto-generated Mon Jun  9 02:38:14 AM CEST 2025
 dnd-ability-charisma                       F0000
 dnd-ability-constitution                   F0001
 dnd-ability-dexterity                      F0002
@@ -721,7 +721,7 @@ opi-monitor                                F209E
 opi-moon                                   F209F
 opi-move                                   F20A0
 opi-musical-note                           F20A1
-opi-open-iconic_min                        F20A2
+opi-open-iconic-min                        F20A2
 opi-open-iconic                            F20A3
 opi-paperclip                              F20A4
 opi-pencil                                 F20A5
@@ -755,7 +755,7 @@ opi-signpost                               F20C0
 opi-sort-ascending                         F20C1
 opi-sort-descending                        F20C2
 opi-spreadsheet                            F20C3
-opi-sprite_min                             F20C4
+opi-sprite-min                             F20C4
 opi-sprite                                 F20C5
 opi-star                                   F20C6
 opi-sun                                    F20C7
@@ -911,7 +911,7 @@ gi-bone                                    F3079
 gi-book-1                                  F307A
 gi-book-3                                  F307B
 gi-book-4                                  F307C
-gi-book-_                                  F307D
+gi-book--                                  F307D
 gi-book-open                               F307E
 gi-book-person                             F307F
 gi-bookcase                                F3080
@@ -1307,7 +1307,7 @@ gi-microphone-2                            F3205
 gi-microscope                              F3206
 gi-mobile                                  F3207
 gi-mocule                                  F3208
-gi-money-_                                 F3209
+gi-money--                                 F3209
 gi-money-3                                 F320A
 gi-money-bag                               F320B
 gi-money-coin                              F320C
