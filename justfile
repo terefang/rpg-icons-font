@@ -25,6 +25,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
     [ -f {{XFNT}}/{{XNAME}}.otf ] || (
         GBASE=$((0xf0000))
         echo "// auto-generated $(date)" > {{XFNT}}/diceset.typ
+        echo "# --- auto-generated $(date)" > {{XFNT}}/diceset.names
         cat > {{XDIR}}/tmp/compile_font.ff <<EOT
         New()
         Reencode("UnicodeFull")
@@ -32,42 +33,50 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
         SetFontNames("{{XNAME}}","{{XNAME}}","{{XNAME}}","Book","CC BY-SA","1.0-2025")
     EOT
         for z in dnd fe opi gi cil; do
+            GINDEX=$GBASE
             for x in {{XDIR}}/icons/$z/*.svg; do
                 y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '_')
-                echo "#let ds-${z}-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GBASE));" >> {{XFNT}}/diceset.typ
+                echo "#let ds-${z}-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+                printf "%-40s   %04X\n" "${z}-${y}" $GINDEX >> {{XFNT}}/diceset.names
                 cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
-                    Select(UCodePoint($GBASE))
+                    Select(UCodePoint($GINDEX))
                     Print("$x")
                     Import("$x")
                     SetGlyphName("$z-$y", 0)
                     RemoveOverlap()
     EOT
-                GBASE=$(($GBASE+1))
+                GINDEX=$(($GINDEX+1))
             done
+            GBASE=$(($GBASE+0x1000))
         done
+        GINDEX=$GBASE
         for x in {{XDIR}}/icons/lorc/*.svg; do
             y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '_')
-            echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GBASE));" >> {{XFNT}}/diceset.typ
+            echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+            printf "%-40s   %04X\n" "${y}" $GINDEX >> {{XFNT}}/diceset.names
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
-            Select(UCodePoint($GBASE))
+            Select(UCodePoint($GINDEX))
             Print("$x")
             Import("$x")
             SetGlyphName("$y", 0)
             RemoveOverlap()
     EOT
-            GBASE=$(($GBASE+1))
+            GINDEX=$(($GINDEX+1))
         done
+        GBASE=$(($GBASE+0x2000))
+        GINDEX=$GBASE
         for x in {{XDIR}}/icons/oi/*.svg; do
             y=$(basename $x -24.svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '_')
-            echo "#let ds-oi-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GBASE));" >> {{XFNT}}/diceset.typ
+            echo "#let ds-oi-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+            printf "%-40s   %04X\n" "oi-${y}" $GINDEX >> {{XFNT}}/diceset.names
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
-            Select(UCodePoint($GBASE))
+            Select(UCodePoint($GINDEX))
             Print("$x")
             Import("$x")
             SetGlyphName("oi-$y", 0)
             RemoveOverlap()
     EOT
-            GBASE=$(($GBASE+1))
+            GINDEX=$(($GINDEX+1))
         done
         echo 'Generate("{{XFNT}}/{{XNAME}}.otf")' >> {{XDIR}}/tmp/compile_font.ff
         fontforge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
