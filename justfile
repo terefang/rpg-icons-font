@@ -23,7 +23,6 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
     #!/bin/sh
     mkdir -p {{XDIR}}/tmp {{XFNT}}
     [ -f {{XFNT}}/{{XNAME}}.otf ] || (
-        GBASE=$((0xf0000))
         echo "// auto-generated $(date)" > {{XFNT}}/diceset.typ
         echo "# --- auto-generated $(date)" > {{XFNT}}/diceset.names
         cat > {{XDIR}}/tmp/compile_font.ff <<EOT
@@ -32,6 +31,22 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
         SetFondName("DICE")
         SetFontNames("{{XNAME}}","{{XNAME}}","{{XNAME}}","Book","CC BY-SA","1.0-2025")
     EOT
+        GBASE=$((0xe000))
+        GINDEX=$GBASE
+        for x in {{XDIR}}/src/pf2/*.svg; do
+            y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
+            echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+            printf "%-40s   %04X\n" "${y}" $GINDEX >> {{XFNT}}/diceset.names
+            cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
+            Select(UCodePoint($GINDEX))
+            Print("$x")
+            Import("$x")
+            SetGlyphName("$y", 0)
+            RemoveOverlap()
+    EOT
+            GINDEX=$(($GINDEX+1))
+        done
+        GBASE=$((0xf0000))
         for z in dnd fe opi gi cil; do
             GINDEX=$GBASE
             for x in {{XDIR}}/icons/$z/*.svg; do
@@ -80,8 +95,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
         done
         echo 'Generate("{{XFNT}}/{{XNAME}}.otf")' >> {{XDIR}}/tmp/compile_font.ff
         fontforge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
-    )
-    rm -rf {{XDIR}}/tmp {{XDIR}}/icons
+    ) && rm -rf {{XDIR}}/tmp {{XDIR}}/icons
 
 dl-dnd:
     #!/bin/sh

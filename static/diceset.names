@@ -1,4 +1,9 @@
-# --- auto-generated Mon Jun  9 02:46:54 AM CEST 2025
+# --- auto-generated Thu Jun 12 12:36:15 PM CEST 2025
+pf2-action-1                               E000
+pf2-action-2                               E001
+pf2-action-3                               E002
+pf2-action-free                            E003
+pf2-reaction                               E004
 dnd-ability-charisma                       F0000
 dnd-ability-constitution                   F0001
 dnd-ability-dexterity                      F0002

@@ -1,4 +1,9 @@
-// auto-generated Mon Jun  9 02:46:54 AM CEST 2025
+// auto-generated Thu Jun 12 12:36:14 PM CEST 2025
+#let ds-pf2-action-1-g = text(font:"RpgGameIcons",str.from-unicode(57344));
+#let ds-pf2-action-2-g = text(font:"RpgGameIcons",str.from-unicode(57345));
+#let ds-pf2-action-3-g = text(font:"RpgGameIcons",str.from-unicode(57346));
+#let ds-pf2-action-free-g = text(font:"RpgGameIcons",str.from-unicode(57347));
+#let ds-pf2-reaction-g = text(font:"RpgGameIcons",str.from-unicode(57348));
 #let ds-dnd-ability-charisma-g = text(font:"RpgGameIcons",str.from-unicode(983040));
 #let ds-dnd-ability-constitution-g = text(font:"RpgGameIcons",str.from-unicode(983041));
 #let ds-dnd-ability-dexterity-g = text(font:"RpgGameIcons",str.from-unicode(983042));
