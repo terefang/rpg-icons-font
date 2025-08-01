@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="48"
+   height="48"
+   viewBox="0 0 12.7 12.7"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="shape-move.svg"
+   inkscape:version="1.4.1 (1:1.4.1+202503302257+93de688d07)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="28.333333"
+     inkscape:cx="29.082353"
+     inkscape:cy="26.505883"
+     inkscape:window-width="2880"
+     inkscape:window-height="1620"
+     inkscape:window-x="473"
+     inkscape:window-y="222"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1" />
+  <g
+     id="g18"
+     transform="matrix(1.1887108,0,0,1.1887108,-4.3173371,-1.1983137)">
+    <path
+       d="M 8.3033691,10.5823 12.535152,6.3505168 v -0.00103 L 8.3033691,2.1177002 7.7814372,2.6391154 C 9.0172735,3.8764562 10.257765,5.1253032 11.505241,6.35 l -3.7217368,3.712952 z"
+       style="stroke-width:0.529167;stroke-linejoin:round;stroke-miterlimit:14.6;stroke-opacity:0.4;paint-order:fill markers stroke"
+       id="path18" />
+    <path
+       d="M 7.1256632,9.4051107 10.180774,6.35 7.1256632,3.2948893 6.6026978,3.8178548 C 7.4491335,4.6656271 8.2980363,5.5132551 9.1503459,6.35 L 6.6073486,8.8867961 Z"
+       style="stroke-width:0.529167;stroke-linejoin:round;stroke-miterlimit:14.6;stroke-opacity:0.4;paint-order:fill markers stroke"
+       id="path17" />
+    <path
+       d="M 5.9350382,8.2144857 7.7995239,6.35 5.9350382,4.4855143 5.4125895,5.0079631 C 5.8638808,5.457379 6.3159678,5.9051469 6.7690959,6.35 l -1.350822,1.3477214 z"
+       style="stroke-width:0.529167;stroke-linejoin:round;stroke-miterlimit:14.6;stroke-opacity:0.4;paint-order:fill markers stroke"
+       id="path16" />
+  </g>
+</svg>

@@ -32,19 +32,22 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci
         SetFontNames("{{XNAME}}","{{XNAME}}","{{XNAME}}","Book","CC BY-SA","1.0-2025")
     EOT
         GBASE=$((0xe000))
-        GINDEX=$GBASE
-        for x in {{XDIR}}/src/pf2/*.svg; do
-            y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
-            echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
-            printf "%-40s   %04X\n" "${y}" $GINDEX >> {{XFNT}}/diceset.names
-            cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
-            Select(UCodePoint($GINDEX))
-            Print("$x")
-            Import("$x")
-            SetGlyphName("$y", 0)
-            RemoveOverlap()
+        for z in pf2 ps; do
+            GINDEX=$GBASE
+            for x in {{XDIR}}/src/$z/*.svg; do
+                y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
+                echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+                printf "%-40s   %04X\n" "${y}" $GINDEX >> {{XFNT}}/diceset.names
+                cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
+                Select(UCodePoint($GINDEX))
+                Print("$x")
+                Import("$x")
+                SetGlyphName("$y", 0)
+                RemoveOverlap()
     EOT
-            GINDEX=$(($GINDEX+1))
+                GINDEX=$(($GINDEX+1))
+            done
+            GBASE=$(($GBASE+0x100))
         done
         GBASE=$((0xf0000))
         for z in dnd fe opi gi cil; do
@@ -138,6 +141,7 @@ dl-gi:
     (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{GI_BASE}} && unzip -o -j tmp.zip )
     (cd {{XDIR}}/tmp/icons/ && rename 's/si-glyph-//' *.svg && mv *.svg {{XDIR}}/icons/gi/)
     rm -rf {{XDIR}}/tmp
+    mv {{XDIR}}/icons/gi/dice-6-.svg {{XDIR}}/icons/gi/dice-4.svg
 
 dl-ci:
     #!/bin/sh
