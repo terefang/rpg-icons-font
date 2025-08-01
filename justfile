@@ -141,7 +141,8 @@ dl-gi:
     (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{GI_BASE}} && unzip -o -j tmp.zip )
     (cd {{XDIR}}/tmp/icons/ && rename 's/si-glyph-//' *.svg && mv *.svg {{XDIR}}/icons/gi/)
     rm -rf {{XDIR}}/tmp
-    mv {{XDIR}}/icons/gi/dice-6-.svg {{XDIR}}/icons/gi/dice-4.svg
+    mv {{XDIR}}/icons/gi/dice-6.svg {{XDIR}}/icons/gi/dice-4.svg
+    mv {{XDIR}}/icons/gi/dice-6-.svg {{XDIR}}/icons/gi/dice-6.svg
 
 dl-ci:
     #!/bin/sh

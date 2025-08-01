@@ -1,4 +1,4 @@
-// auto-generated Fri Aug  1 08:11:26 AM CEST 2025
+// auto-generated Fri Aug  1 08:24:56 AM CEST 2025
 #let ds-pf2-action-1-g = text(font:"RpgGameIcons",str.from-unicode(57344));
 #let ds-pf2-action-2-g = text(font:"RpgGameIcons",str.from-unicode(57345));
 #let ds-pf2-action-3-g = text(font:"RpgGameIcons",str.from-unicode(57346));
