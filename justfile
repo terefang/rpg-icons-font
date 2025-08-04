@@ -222,7 +222,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
             GBASE=$(($GBASE+0x100))
         done
         GBASE=$((0xf0000))
-        for z in dnd fe opi gi cil; do
+        for z in dnd fe opi gi cil lc; do
             GINDEX=$GBASE
             for x in {{XDIR}}/icons/$z/*.svg; do
                 y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
@@ -272,7 +272,8 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
             GINDEX=$(($GINDEX+1))
         done
         echo 'Generate("{{XFNT}}/{{XNAME}}.otf")' >> {{XDIR}}/tmp/compile_font.ff
-        fontforge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
+        # fontforge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
+        flatpak run org.fontforge.FontForge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
     ) && rm -rf {{XDIR}}/tmp {{XDIR}}/icons
     woff2_compress {{XFNT}}/{{XNAME}}.otf
 
