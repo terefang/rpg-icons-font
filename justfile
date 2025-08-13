@@ -7,6 +7,7 @@ XNAME := 'RpgGameIcons'
 
 DND_BASE := 'https://github.com/intrinsical/tw-dnd/archive/refs/heads/main.zip'
 LORC_BASE := 'https://game-icons.net/archives/svg/zip/000000/transparent/game-icons.net.svg.zip'
+LOR2_BASE := 'https://game-icons.net/archives/svg/zip/ffffff/000000/game-icons.net.svg.zip'
 FE_BASE := 'https://github.com/feathericons/feather/archive/refs/heads/main.zip'
 OI_BASE := 'https://github.com/primer/octicons/archive/refs/heads/main.zip'
 OP_BASE := 'https://github.com/iconic/open-iconic/archive/refs/heads/master.zip'
@@ -20,10 +21,10 @@ clean:
     #!/bin/sh
     rm -rf {{XDIR}}/tmp {{XDIR}}/icons {{XFNT}}
 
-build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
+build: dl-dnd dl-lorc dl-lorc2 dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
     #!/bin/sh
     mkdir -p {{XDIR}}/tmp {{XFNT}}
-    [ -f {{XFNT}}/{{XNAME}}.otf ] || (
+    [ -f {{XFNT}}/{{XNAME}}.ttf ] || (
         cat > {{XFNT}}/diceset.css  <<EOT
         /* auto-generated $(date) */
 
@@ -216,6 +217,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
                 Import("$x")
                 SetGlyphName("$y", 0)
                 RemoveOverlap()
+                AutoWidth(1)
     EOT
                 GINDEX=$(($GINDEX+1))
             done
@@ -235,6 +237,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
                     Import("$x")
                     SetGlyphName("$z-$y", 0)
                     RemoveOverlap()
+                    AutoWidth(1)
     EOT
                 GINDEX=$(($GINDEX+1))
             done
@@ -252,6 +255,23 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
             Import("$x")
             SetGlyphName("$y", 0)
             RemoveOverlap()
+            AutoWidth(1)
+    EOT
+            GINDEX=$(($GINDEX+1))
+        done
+        GBASE=$(($GBASE+0x2000))
+        for x in {{XDIR}}/icons/lorc2/*.svg; do
+            y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
+            echo "#let ds-solid-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+            printf ".ds-solid-${y}:before { content: '\\%04x'; } \n" $GINDEX >> {{XFNT}}/diceset.css
+            printf "%-40s   %04X\n" "solid-${y}" $GINDEX >> {{XFNT}}/diceset.names
+            cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
+            Select(UCodePoint($GINDEX))
+            Print("$x")
+            Import("$x")
+            SetGlyphName("solid-$y", 0)
+            RemoveOverlap()
+            AutoWidth(1)
     EOT
             GINDEX=$(($GINDEX+1))
         done
@@ -268,6 +288,7 @@ build: dl-dnd dl-lorc dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
             Import("$x")
             SetGlyphName("oi-$y", 0)
             RemoveOverlap()
+            AutoWidth(1)
     EOT
             GINDEX=$(($GINDEX+1))
         done
@@ -289,6 +310,13 @@ dl-lorc:
     mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/lorc
     (cd {{XDIR}}/tmp && wget -O tmp.zip {{LORC_BASE}} && unzip tmp.zip )
     (cd {{XDIR}}/tmp/icons/000000/transparent/1x1/ && rename -v 's/\//-/' */*.svg && mv *.svg {{XDIR}}/icons/lorc/)
+    rm -rf {{XDIR}}/tmp
+
+dl-lorc2:
+    #!/bin/sh
+    mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/lorc2
+    (cd {{XDIR}}/tmp && wget -O tmp.zip {{LOR2_BASE}} && unzip tmp.zip )
+    (cd {{XDIR}}/tmp/icons/ffffff/000000/1x1/ && rename -v 's/\//-/' */*.svg && mv *.svg {{XDIR}}/icons/lorc2/)
     rm -rf {{XDIR}}/tmp
 
 dl-lc:
