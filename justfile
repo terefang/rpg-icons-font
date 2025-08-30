@@ -15,13 +15,15 @@ GI_BASE := 'https://github.com/chutichhuy/glyph-iconset/archive/refs/heads/maste
 CI_BASE := 'https://github.com/coreui/coreui-icons/archive/refs/heads/main.zip'
 LC_BASE := 'https://github.com/lucide-icons/lucide/archive/refs/heads/main.zip'
 
-default: build
+default: build-all
 
 clean:
     #!/bin/sh
     rm -rf {{XDIR}}/tmp {{XDIR}}/icons {{XFNT}}
 
-build: dl-dnd dl-lorc dl-lorc2 dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
+build-all: dl-dnd dl-lorc dl-lorc2 dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc build
+    rm -rf {{XDIR}}/icons
+build:
     #!/bin/sh
     mkdir -p {{XDIR}}/tmp {{XFNT}}
     [ -f {{XFNT}}/{{XNAME}}.ttf ] || (
@@ -202,6 +204,18 @@ build: dl-dnd dl-lorc dl-lorc2 dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
         Reencode("UnicodeFull")
         SetFondName("DICE")
         SetFontNames("{{XNAME}}","{{XNAME}}","{{XNAME}}","Book","CC BY-SA","1.0-2025")
+        #Select(0)
+        #SetGlyphName(".notdef", 0)
+        #SetWidth(0)
+        #Select(UCodePoint(0))
+        #SetGlyphName(".null", 0)
+        #SetWidth(0)
+        #Select(UCodePoint(13))
+        #SetGlyphName("CR", 0)
+        #SetWidth(500)
+        #Select(UCodePoint(32))
+        #SetGlyphName("space", 0)
+        #SetWidth(500)
     EOT
         GBASE=$((0xe000))
         for z in pf2 ps; do
@@ -228,6 +242,7 @@ build: dl-dnd dl-lorc dl-lorc2 dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
             GINDEX=$GBASE
             for x in {{XDIR}}/icons/$z/*.svg; do
                 y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
+                echo "ds-${z}-${y} -- $GINDEX"
                 echo "#let ds-${z}-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
                 printf ".ds-${z}-${y}:before { content: '\\%04x'; } \n" $GINDEX >> {{XFNT}}/diceset.css
                 printf "%-40s   %04X\n" "${z}-${y}" $GINDEX >> {{XFNT}}/diceset.names
@@ -295,7 +310,7 @@ build: dl-dnd dl-lorc dl-lorc2 dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc
         echo 'Generate("{{XFNT}}/{{XNAME}}.otf")' >> {{XDIR}}/tmp/compile_font.ff
         # fontforge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
         flatpak run org.fontforge.FontForge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
-    ) && rm -rf {{XDIR}}/tmp {{XDIR}}/icons
+    ) && rm -rf {{XDIR}}/tmp
     woff2_compress {{XFNT}}/{{XNAME}}.otf
 
 dl-dnd:
