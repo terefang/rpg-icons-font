@@ -8,12 +8,6 @@ XNAME := 'RpgGameIcons'
 DND_BASE := 'https://github.com/intrinsical/tw-dnd/archive/refs/heads/main.zip'
 LORC_BASE := 'https://game-icons.net/archives/svg/zip/000000/transparent/game-icons.net.svg.zip'
 LOR2_BASE := 'https://game-icons.net/archives/svg/zip/ffffff/000000/game-icons.net.svg.zip'
-FE_BASE := 'https://github.com/feathericons/feather/archive/refs/heads/main.zip'
-OI_BASE := 'https://github.com/primer/octicons/archive/refs/heads/main.zip'
-OP_BASE := 'https://github.com/iconic/open-iconic/archive/refs/heads/master.zip'
-GI_BASE := 'https://github.com/chutichhuy/glyph-iconset/archive/refs/heads/master.zip'
-CI_BASE := 'https://github.com/coreui/coreui-icons/archive/refs/heads/main.zip'
-LC_BASE := 'https://github.com/lucide-icons/lucide/archive/refs/heads/main.zip'
 
 default: build-all
 
@@ -21,7 +15,7 @@ clean:
     #!/bin/sh
     rm -rf {{XDIR}}/tmp {{XDIR}}/icons {{XFNT}}
 
-build-all: dl-dnd dl-lorc dl-lorc2 dl-fe dl-oi dl-opi dl-gi dl-ci dl-lc build
+build-all: dl-dnd dl-lorc dl-lorc2  build
     rm -rf {{XDIR}}/icons
 build:
     #!/bin/sh
@@ -204,18 +198,22 @@ build:
         Reencode("UnicodeFull")
         SetFondName("DICE")
         SetFontNames("{{XNAME}}","{{XNAME}}","{{XNAME}}","Book","CC BY-SA","1.0-2025")
-        #Select(0)
-        #SetGlyphName(".notdef", 0)
-        #SetWidth(0)
-        #Select(UCodePoint(0))
-        #SetGlyphName(".null", 0)
-        #SetWidth(0)
-        #Select(UCodePoint(13))
-        #SetGlyphName("CR", 0)
-        #SetWidth(500)
-        #Select(UCodePoint(32))
-        #SetGlyphName("space", 0)
-        #SetWidth(500)
+        Select(0)
+        SetUnicodeValue(-1,0)
+        SetGlyphName(".notdef", 0)
+        SetWidth(0)
+        Reencode("UnicodeFull")
+        Select(UCodePoint(0))
+        SetGlyphName(".null", 0)
+        SetWidth(0)
+        Reencode("UnicodeFull")
+        Select(UCodePoint(13))
+        SetGlyphName("CR", 0)
+        SetWidth(500)
+        Reencode("UnicodeFull")
+        Select(UCodePoint(32))
+        SetGlyphName("space", 0)
+        SetWidth(500)
     EOT
         GBASE=$((0xe000))
         for z in pf2 ps; do
@@ -238,7 +236,7 @@ build:
             GBASE=$(($GBASE+0x100))
         done
         GBASE=$((0xf0000))
-        for z in dnd fe opi gi cil lc; do
+        for z in dnd ; do
             GINDEX=$GBASE
             for x in {{XDIR}}/icons/$z/*.svg; do
                 y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
@@ -290,24 +288,8 @@ build:
     EOT
             GINDEX=$(($GINDEX+1))
         done
-        GBASE=$(($GBASE+0x2000))
-        GINDEX=$GBASE
-        for x in {{XDIR}}/icons/oi/*.svg; do
-            y=$(basename $x -24.svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
-            echo "#let ds-oi-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
-            printf ".ds-oi-${y}:before { content: '\\%04x'; } \n" $GINDEX >> {{XFNT}}/diceset.css
-            printf "%-40s   %04X\n" "oi-${y}" $GINDEX >> {{XFNT}}/diceset.names
-            cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
-            Select(UCodePoint($GINDEX))
-            Print("$x")
-            Import("$x")
-            SetGlyphName("oi-$y", 0)
-            RemoveOverlap()
-            AutoWidth(1)
-    EOT
-            GINDEX=$(($GINDEX+1))
-        done
         echo 'Generate("{{XFNT}}/{{XNAME}}.otf")' >> {{XDIR}}/tmp/compile_font.ff
+        echo 'Generate("{{XFNT}}/{{XNAME}}.ttf")' >> {{XDIR}}/tmp/compile_font.ff
         # fontforge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
         flatpak run org.fontforge.FontForge -lang=ff -script {{XDIR}}/tmp/compile_font.ff
     ) && rm -rf {{XDIR}}/tmp
@@ -332,48 +314,4 @@ dl-lorc2:
     mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/lorc2
     (cd {{XDIR}}/tmp && wget -O tmp.zip {{LOR2_BASE}} && unzip tmp.zip )
     (cd {{XDIR}}/tmp/icons/ffffff/000000/1x1/ && rename -v 's/\//-/' */*.svg && mv *.svg {{XDIR}}/icons/lorc2/)
-    rm -rf {{XDIR}}/tmp
-
-dl-lc:
-    #!/bin/sh
-    mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/lc
-    (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{LC_BASE}} && unzip -o -j tmp.zip */icons/*.svg)
-    (cd {{XDIR}}/tmp/icons/ && mv *.svg {{XDIR}}/icons/lc/)
-    rm -rf {{XDIR}}/tmp
-
-dl-fe:
-    #!/bin/sh
-    mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/fe
-    (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{FE_BASE}} && unzip -o -j tmp.zip )
-    (cd {{XDIR}}/tmp/icons/ && mv *.svg {{XDIR}}/icons/fe/)
-    rm -rf {{XDIR}}/tmp
-
-dl-oi:
-    #!/bin/sh
-    mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/oi
-    (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{OI_BASE}} && unzip -o -j tmp.zip )
-    (cd {{XDIR}}/tmp/icons/ && mv *-24.svg {{XDIR}}/icons/oi/)
-    rm -rf {{XDIR}}/tmp
-
-dl-opi:
-    #!/bin/sh
-    mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/opi
-    (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{OP_BASE}} && unzip -o -j tmp.zip )
-    (cd {{XDIR}}/tmp/icons/ && mv *.svg {{XDIR}}/icons/opi/)
-    rm -rf {{XDIR}}/tmp
-
-dl-gi:
-    #!/bin/sh
-    mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/gi
-    (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{GI_BASE}} && unzip -o -j tmp.zip )
-    (cd {{XDIR}}/tmp/icons/ && rename 's/si-glyph-//' *.svg && mv *.svg {{XDIR}}/icons/gi/)
-    rm -rf {{XDIR}}/tmp
-    mv {{XDIR}}/icons/gi/dice-6.svg {{XDIR}}/icons/gi/dice-4.svg
-    mv {{XDIR}}/icons/gi/dice-6-.svg {{XDIR}}/icons/gi/dice-6.svg
-
-dl-ci:
-    #!/bin/sh
-    mkdir -p {{XDIR}}/tmp/icons  {{XDIR}}/icons/cil
-    (cd {{XDIR}}/tmp/icons/ && wget -O tmp.zip {{CI_BASE}} && unzip -o -j tmp.zip )
-    (cd {{XDIR}}/tmp/icons/ && rm -f cif-*.svg cib-*.svg && rename 's/cil-//' *.svg && mv *.svg {{XDIR}}/icons/cil/)
     rm -rf {{XDIR}}/tmp
