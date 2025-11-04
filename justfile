@@ -192,6 +192,7 @@ build:
         }
     EOT
         echo "// auto-generated $(date)" > {{XFNT}}/diceset.typ
+        echo "#let ds-icons = (:)" > {{XFNT}}/diceset.typ
         echo "# --- auto-generated $(date)" > {{XFNT}}/diceset.names
         cat > {{XDIR}}/tmp/compile_font.ff <<EOT
         New()
@@ -221,6 +222,7 @@ build:
             for x in {{XDIR}}/src/$z/*.svg; do
                 y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
                 echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+                echo "#ds-icons.insert(\"${y}\", ds-${y}-g);" >> {{XFNT}}/diceset.typ
                 printf ".ds-${y}:before { content: '\\%04x'; } \n" $GINDEX >> {{XFNT}}/diceset.css
                 printf "%-40s   %04X\n" "${y}" $GINDEX >> {{XFNT}}/diceset.names
                 cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
@@ -242,6 +244,7 @@ build:
                 y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
                 echo "ds-${z}-${y} -- $GINDEX"
                 echo "#let ds-${z}-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+                echo "#ds-icons.insert(\"${z}-${y}\", ds-${z}-${y}-g);" >> {{XFNT}}/diceset.typ
                 printf ".ds-${z}-${y}:before { content: '\\%04x'; } \n" $GINDEX >> {{XFNT}}/diceset.css
                 printf "%-40s   %04X\n" "${z}-${y}" $GINDEX >> {{XFNT}}/diceset.names
                 cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
@@ -260,6 +263,7 @@ build:
         for x in {{XDIR}}/icons/lorc/*.svg; do
             y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
             echo "#let ds-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+            echo "#ds-icons.insert(\"${y}\", ds-${y}-g);" >> {{XFNT}}/diceset.typ
             printf ".ds-${y}:before { content: '\\%04x'; } \n" $GINDEX >> {{XFNT}}/diceset.css
             printf "%-40s   %04X\n" "${y}" $GINDEX >> {{XFNT}}/diceset.names
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
@@ -276,6 +280,7 @@ build:
         for x in {{XDIR}}/icons/lorc2/*.svg; do
             y=$(basename $x .svg | tr -d '[[:space:]]' | tr -c '[a-zA-Z0-9\-]+' '-'| sed -E 's/\-+$//g'| sed -E 's/\-+/-/g')
             echo "#let ds-solid-${y}-g = text(font:\"{{XNAME}}\",str.from-unicode($GINDEX));" >> {{XFNT}}/diceset.typ
+            echo "#ds-icons.insert(\"solid-${y}\", ds-solid-${y}-g);" >> {{XFNT}}/diceset.typ
             printf ".ds-solid-${y}:before { content: '\\%04x'; } \n" $GINDEX >> {{XFNT}}/diceset.css
             printf "%-40s   %04X\n" "solid-${y}" $GINDEX >> {{XFNT}}/diceset.names
             cat >> {{XDIR}}/tmp/compile_font.ff <<EOT
